@@ -448,6 +448,7 @@ centered = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 2)
 shape = SubResource("CapsuleShape2D_eleex")
+debug_color = Color(0.913725, 0, 0.541176, 0.419608)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("5_ifgtr")
@@ -464,18 +465,20 @@ anim_player = NodePath("../AnimationPlayer")
 parameters/playback = SubResource("AnimationNodeStateMachinePlayback_yt2dg")
 parameters/Move/blend_position = 0.025
 
-[node name="CharacterStateMachine" type="Node" parent="." node_paths=PackedStringArray("current_state")]
+[node name="CharacterStateMachine" type="Node" parent="." node_paths=PackedStringArray("character", "current_state")]
 script = ExtResource("7_tsw67")
+character = NodePath("..")
 current_state = NodePath("Ground")
 
-[node name="Air" type="Node" parent="CharacterStateMachine"]
-script = ExtResource("8_6uq22")
+[node name="Ground" type="Node" parent="CharacterStateMachine" node_paths=PackedStringArray("air_state")]
+script = ExtResource("8_dvdcy")
+air_state = NodePath("../Air")
 
 [node name="Landing" type="Node" parent="CharacterStateMachine"]
 script = ExtResource("9_c4t5d")
 can_move = false
 
-[node name="Ground" type="Node" parent="CharacterStateMachine"]
-script = ExtResource("8_dvdcy")
+[node name="Air" type="Node" parent="CharacterStateMachine"]
+script = ExtResource("8_6uq22")
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
